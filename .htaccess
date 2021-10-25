@@ -1,0 +1,8 @@
+Options +FollowSymLinks
+
+ReWriteEngine Options
+
+ReWriteCond %(REQUEST_FILENAME) -f [OR]
+RewriteCond %(REQUEST_FILENAME) -d
+
+RewriteRule ^(.*)$ index.php [NC,L]
