@@ -31,6 +31,7 @@ if($rol == "1"){
     }
 
     if($password == $password2) {
+        $password = password_hash($password, PASSWORD_BCRYPT);
         if(($username && $email && $password && $password2 && $rol)!=null) {
             //Te has registrado correctamente
             $stmt->execute([$username,$email,$password,$rol,$date]);

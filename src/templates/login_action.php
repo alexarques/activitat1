@@ -5,27 +5,23 @@ require APP."/lib/conn.php";
 //require APP."/lib/lib.php";
 
 $username = filter_input(INPUT_POST, "username");
-$password = filter_input(INPUT_POST, "password");
+$password = password_hash(filter_input(INPUT_POST, "password"));
 $db = getConnection($dsn,$dbuser,$dbpasswd);
-$stmt = $db->prepare("SELECT * from users WHERE username = '".$username."';");
+$stmt = $db->prepare("SELECT * from users WHERE username = '".$username."' AND passwd = '".$password."';");
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$dbpass = $results[0];
-$verify = password_verify($password,$dbpass["passwd"]);
 $remember = filter_input(INPUT_POST, "remember");
 $login = filter_input(INPUT_POST, "login");
-
-    if(empty($results) == false && $verify){
-
-        //Te has logueado correctamente
+var_dump($password);
+    if(empty($results) == true){
         session_start();
+        $_SESSION["error"]="*Usuario o contraseña erronéos";
+        header("Location:?url=login");
+    } else {
+        //Te has registrado correctamente
         $_SESSION["username"] = $username; 
         $_SESSION["date"] = "";
-        header("Location:?url=home");
-    } else {
-        //No te has podido loguear
-        $_SESSION["error"]="*Usuario o contraseña erronéos";
-        //header("Location:?url=login");
+        //header("Location:?url=home");
     }
     
     if($remember !=null){

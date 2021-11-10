@@ -19,14 +19,7 @@
             echo "<br>";
             echo "<h5>Registrado desde: ".$_SESSION["date"]."</h5>";
             echo "<br>";
-         ?></h1>
-         <nav>
-             <ul>
-                 <li><a href="?url=to_do_list">Tasks</a></li>
-                 <li><a href="?url=logout_action">Log out</a></li>
-             </ul>
-         </nav>
-        <?php } ?>
+        } ?></h1>
     </header>
     <aside>
         <ul>
@@ -38,5 +31,12 @@
                 <a href="?url=register">Register</a>
             </li>
             <?php }?>
+            <?php if(isset($_SESSION["username"])){?>
+            <li>
+                <a href="?url=to_do_list">To do list</a>
+                <a href="?url=logout_action">Log out</a>
+            </li>
+        </ul>
+        <?php }?>
 </body>
 </html>
