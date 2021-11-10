@@ -38,7 +38,7 @@
          <form action="?url=to_do_list_action" method="post">
             <select name="lists">
                 <?php foreach($list as $listData){?>
-                    <option value=<?php echo $listData["id"]; ?>><?php echo $listData["list"];?></option>
+                    <option value=<?php echo $listData["id"]; ?> placeholder="Listas"><?php echo $listData["list"];?></option>
                 <?php } ?>
             </select>
             <input type="text" name="task" placeholder="Nombre de la tarea">
@@ -46,7 +46,23 @@
             <input type="submit" name="refresh" value="Recargar listas">
             <input type="submit" name="createtask" value="Crear"><!-- Crear</button> -->
          </form>
-         <!-- <h4><?php //if (isset($_SESSION["submitList"]) != null){ echo $_SESSION["createList"]; }?></h4> -->
+         <br>
+         <h3>Mostrar lista de tareas: </h3>
+         <form action="?url=to_do_list_action" method="post">
+            <select name="showLists">
+                <?php foreach($list as $listData){?>
+                    <option value=<?php echo $listData["id"]; ?> placeholder="Listas"><?php echo $listData["list"];?></option>
+                <?php } ?>
+            </select>
+            <input type="submit" name="showTasks" value="Mostrar las tareas">
+         </form>
+         <tr>
+         <?php foreach($_SESSION["allTasks"] as $allTasks){?>
+            <td><?php echo $allTasks[0]; ?> </td>
+         <?php } 
+         //var_dump($_SESSION["allTasks"]);?>
+         </tr>
+         <!-- <h4><?php// if (isset($_SESSION["allTasks"]) != null){ echo $_SESSION["createList"]; }?></h4> -->
          <?php //if(isset($_SESSION["list"])){?>
         <?php    
         } else {

@@ -20,15 +20,11 @@ foreach($idArray as $id){
 $_SESSION["usrid"] = $idusr;
 
 
-//CARGAR Y EJECUTAR SENTENCIAS DE LAS TABLAS LIST Y TASK
+//CARGAR Y EJECUTAR LA SENTENCIA DE LA TABLA LIST
 $stmt_list = $db->prepare("SELECT * from list WHERE username_id = '".intval($idusr)."';"); //listas creadas por usr
-//$stmt_task = $db->prepare("SELECT * from task WHERE username_id = '".intval($idusr)."' and '".intval($idusr)."';"); //task creadas en listas
 $stmt_list->execute();
-//$stmt_task->execute();
 $list = $stmt_list->fetchAll(PDO::FETCH_ASSOC);
 $dblist = $list[0];
-//$task = $stmt_task->fetchAll(PDO::FETCH_ASSOC);
-$dbtask = $task[0];
 $_SESSION["list"] = $list;
 //var_dump($list);
 // var_dump($usrID);
@@ -66,13 +62,24 @@ if ($nametask != null && $createTask != null){
     header("Location:?url=to_do_list");
 } 
 
-//MOSTRAR TASK
-$stmt_task = $db->prepare("SELECT * from task WHERE username_id = '".intval($idusr)."' and '".intval($idusr)."';"); //task creadas en listas
-
-$selectList = filter_input(INPUT_POST, "selectlist");
-if ($selectList != null) {
-    $_SESSION["task"] = $task;
+//MOSTRAR TASKS EN LISTAS
+$showLists = filter_input(INPUT_POST, "showLists");
+$showTasks = filter_input(INPUT_POST, "showTasks");
+if ($showTasks != null) {
+    $stmt_shTask = $db->prepare("SELECT task from task, descript WHERE list_task = '".$showLists."' and username_id = '".intval($idusr)."';");
+    $stmt_shTask->execute();
+    $tasks = $stmt_shTask->fetchAll(PDO::FETCH_ASSOC);
+    $arrTask = $tasks[0];
+    // var_dump($stmt_shTask);
+    $_SESSION["allTasks"] = $tasks;
+    // var_dump($_SESSION["allTasks"]);
+    // $dbtask = $task[0];
     header("Location:?url=to_do_list");
+    // var_dump($showLists);
+    // var_dump($idusr);
+    // foreach($_SESSION["allTasks"] as $allTasks){
+    //     echo $allTasks;
+    // }
 }
 
 // $stmt_list = $db->prepare("SELECT list from list WHERE id = '".intval($id)."';");
