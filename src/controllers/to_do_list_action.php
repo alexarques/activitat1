@@ -66,7 +66,7 @@ if ($nametask != null && $createTask != null){
 $showLists = filter_input(INPUT_POST, "showLists");
 $showTasks = filter_input(INPUT_POST, "showTasks");
 if ($showTasks != null) {
-    $stmt_shTask = $db->prepare("SELECT task from task, descript WHERE list_task = '".$showLists."' and username_id = '".intval($idusr)."';");
+    $stmt_shTask = $db->prepare("SELECT task,descript from task WHERE list_task = '".$showLists."' and username_id = '".intval($idusr)."';");
     $stmt_shTask->execute();
     $tasks = $stmt_shTask->fetchAll(PDO::FETCH_ASSOC);
     $arrTask = $tasks[0];
